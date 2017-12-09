@@ -45,7 +45,8 @@ det kan f.eks. være massiv tilgang i antallet af bruger eller hvis en del af sy
 Der er flere værktøjer som kan bruges til at implementere monitorering, et par af disse kunne f.eks. være Grafana, Prometheus og Elk stacken. 
 De nævnte værktøjer dækker og hjælper med at sætte et godt monitorering set-up op, så du er rustet til at klare de udfordringer du vil komme ud for.  
 
-#### Grafana
+#### Grafana 
+![Grafana](https://github.com/JonasSimonsen/UFO/blob/master/pictures/grafana.png) <br>
 Grafana er et visuelt overvågnings værktøj som bl.a. giver dig mulighed for at lave grafer, alarmer, notifikationer, og filtrere din data på en pæn og overskuelig måde.
 Et eksempel på hvor Grafana er godt at bruge er med dets alert / notifikation system, som giver dig besked når den opfanger noget uregelmæssigt, baseret på dine filtre, så du hurtigt får besked om at du skal tage et kig på dit system.
 Det kan være hvis dit system er langsomt til at beregne et request, eller hvis dit ressourceforbrug lige pludselig bliver tårnhøjt, baseret på det normale forbrug. 
