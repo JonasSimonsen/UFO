@@ -36,7 +36,7 @@ Ved at indarbejde monitorering i et system, kan man sikre en hurtig og præcis i
 det giver udvikleren mulighed for at inspicere logfilerne og få lokaliseret et eventuelt problemet hurtigt.
 
 Ved at bruge monitorering har man også mulighed for at udforske og overvåge systemet i produktion, her vil det typisk være monitorering af f.eks. opstået fejl, resource brug samt responstid. 
-Ved at monitorere f.eks. et system resursebehov, har udvikler og administrator mulighed for at få en advarsler de kan handle på, når der sker noget uventet, 
+<br>Ved at monitorere f.eks. et system resursebehov, har udvikler og administrator mulighed for at få en advarsler de kan handle på, når der sker noget uventet, 
 det kan f.eks. være massiv tilgang i antallet af bruger eller hvis en del af systemet pludselig bliver overbelastet på anden måde så systemet har et stort resursebehov og derved bliver langsomt. 
-Ud fra det kan man hurtigt beslutte hvad man ønsker gøre, om det er behov for skalering eller nedlukning af dele af systemet der er brug for. 
+<br>Ud fra det kan man hurtigt beslutte hvad man ønsker gøre, om det er behov for skalering eller nedlukning af dele af systemet der er brug for. 
 
