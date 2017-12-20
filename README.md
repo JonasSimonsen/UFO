@@ -9,8 +9,6 @@ Med logging og monitorering af et allerede kørende system, kan man få et bedre
 Ved at benytte disse værktøjer kan man opnå et hurtigere og mere stabilt system, med færre fejl og derved også en bedre brugeroplevelse. 
 <br>
 
-
-
 ### Problemet
 
 Som enhver udvikler ved er logging en kritisk ressource til at finde fejl i komplekse systemer i produktion. Logging giver en rig mulighed for at se hvad der skete, hvornår og hvor i systemet, så en hurtig og præcis løsning til et problem kan udvikles. Men at arbejde med logfiler er som regel en meget tidskrævende og administrativ tung opgave.
@@ -59,7 +57,7 @@ Billedet skal illustrere hvad der vil ske når et APi kald kommer til vores serv
 Grafana er et visuelt værktøj som bl.a. giver dig mulighed for at lave grafer, alarmer, notifikationer, og filtrere din data, som du f.eks. får fra prometheus, på en pæn og overskuelig måde. Et eksempel på hvor Grafana er godt at bruge er med dets alert / notifikation system, som giver dig besked når den opfanger noget uregelmæssigt, baseret på dine filtre, så du hurtigt får besked om at du skal tage et kig på dit system. Det kan være hvis dit system er langsomt til at beregne et request, eller hvis dit ressourceforbrug lige pludselig bliver tårnhøjt, baseret på det normale forbrug.
 
 #### Prometheus
-Prometheus<sup>1</sup> er et værktøj som samler din data ét sted, for at danne et overblik. Typisk data du sender til Prometheus kan være hvor mange gange et API bliver kaldt, eller hvor lang tid dine metoder er om at behandle et request. Men du er ikke bundet til kun at indsamle data om dit projekt, du har også mulighed for at overvåge din server.
+Prometheus er et værktøj som samler din data ét sted, for at danne et overblik. Typisk data du sender til Prometheus kan være hvor mange gange et API bliver kaldt, eller hvor lang tid dine metoder er om at behandle et request. Men du er ikke bundet til kun at indsamle data om dit projekt, du har også mulighed for at overvåge din server.
 <br>
 For at få Promethues til at virke i vores Hackernews har vi implementeret det ved hjælp af en annotation i java som vil lave en metric, den annotation har vi tilføjet til alle vores endpoints, som vi har specificeret i vores path. Ydermere har vi også tilføjet den i vores applicationConfig.
 
@@ -78,11 +76,11 @@ Når dataen er indsamlet hos Prometheus vil den stille et /metrics API til rådi
 ![metrics](https://github.com/JonasSimonsen/UFO/blob/master/pictures/metric-total.png)
 
 #### Elk
-Elk stacken<sup>2</sup> er en samling af 3 forskellige værktøjer som har hver deres funktion, de er beskrevet i billedet nedenfor.
+Elk stacken er en samling af 3 forskellige værktøjer som har hver deres funktion, de er beskrevet i billedet nedenfor.
 
 ![ELK](https://github.com/JonasSimonsen/UFO/blob/master/pictures/Elk-2.png)
 
-Det er langt fra de eneste logging- og monitoreringsværktøjer som findes, der er også alternativer som f.eks. Datadog<sup>3</sup>, som også virker med de mest kendte teknologier, så som Docker, Amazon webservice, Microsoft Azure, MongoDB, Java og mange flere. Ydermere er det også et tool som bruges af nogle af de største teknologi giganter i verden som f.eks. Intel, Samsung og eBay. Datadog er blot et af mange andre værktøjer, som kan bruges til logging og monitorering. Her er f.eks en oversigt over 51<sup>4</sup> brugbare værktøjer til netop dette.
+Det er langt fra de eneste logging- og monitoreringsværktøjer som findes, der er også alternativer som f.eks. Datadog<sup>1</sup>, som også virker med de mest kendte teknologier, så som Docker, Amazon webservice, Microsoft Azure, MongoDB, Java og mange flere. Ydermere er det også et tool som bruges af nogle af de største teknologi giganter i verden som f.eks. Intel, Samsung og eBay. Datadog er blot et af mange andre værktøjer, som kan bruges til logging og monitorering. Her er f.eks en oversigt over 51<sup>2</sup> brugbare værktøjer til netop dette.
 
 ### Hvad holder implementering af monitorering tilbage?
  
@@ -94,15 +92,20 @@ Vi har ved udviklingen af Hackernews projektet oplevet at det har været besvær
 ### Hvad får du ud af at monitorere og logge?
 Implementere af logging og monitorering i dit system, vil på sigt spare både tid og penge i forhold til vedligeholdelse af dit system, da du hurtigere finder fejlene, i logfilerne, og du får hurtigere en melding om fejlene, ved hjælp af monitorering. Det kræver tid at implementere i starten, specielt hvis det er ældre systemer, som kan være store og komplicerede at finde rundt i, men hvis du oplever fejl og har svært ved at lokalisere dem, vil logging og monitorering med garanti hjælpe dig til at finde fejlene hurtigere, end hvis du manuelt skulle finde en fejl. På den lange bane forventes det, at være en god investering, da det ligesom refaktorering gør det hele nemmere senere hen og der vil spares en masse tid, idet man ved en vellykket opsætning ikke skal sidde og lede i logfilerne. Hvis vi havde fortsat udviklingen på vores Hackernews projekt vil vi klart have arbejdet mere med logging og monitorering, for at kunne få endnu mere data omkring hvordan systemet performer og hvad det bliver udsat for. 
 
-### Kildeliste.
+### Fodnoter.
 
-<sup>1</sup>Prometheus: https://prometheus.io
+<sup>1</sup>Datadog: https://www.datadoghq.com
 <br>
-<sup>2</sup>Elk-stack: https://www.elastic.co
-<br>
-<sup>3</sup>Datadog: https://www.datadoghq.com
-<br>
-<sup>4</sup>51tools: https://stackify.com/best-log-management-tools/ 
+<sup>2</sup>51tools: https://stackify.com/best-log-management-tools/ 
 <br>
 
+### Kildeliste
+
+Prometheus: https://prometheus.io
+<br>
+Elk-stack: https://www.elastic.co
+<br>
+Grafana: https://grafana.com/
+<br> 
+Best Practice logs: http://dev.splunk.com/view/logging/SP-CAAAFCK
 
