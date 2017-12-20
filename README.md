@@ -49,9 +49,9 @@ Der er flere værktøjer som kan bruges til at implementere monitorering, et par
 
 Billedet skal illustrere hvad der vil ske når et APi kald kommer til vores server. Der sker flere ting under et enkelt request. 
 <br>
-* Dataen i Prometheus bliver opdateret og gjort tilgængeligt til 3 part værktøjer som Grafana. 
-* Der bliver skrevet til en logfil på serveren, som bliver gjort tilgængelig til Logstash. 
-* Til sidst bliver det enkelte request håndteret og returneret til brugeren.
+1. Dataen i Prometheus bliver opdateret og gjort tilgængeligt til 3 part værktøjer som Grafana. 
+2. Der bliver skrevet til en logfil på serveren, som bliver gjort tilgængelig til Logstash. 
+3. Til sidst bliver det enkelte request håndteret og returneret til brugeren.
 
 #### Grafana 
 Grafana er et visuelt værktøj som bl.a. giver dig mulighed for at lave grafer, alarmer, notifikationer, og filtrere din data, som du f.eks. får fra prometheus, på en pæn og overskuelig måde. Et eksempel på hvor Grafana er godt at bruge er med dets alert / notifikation system, som giver dig besked når den opfanger noget uregelmæssigt, baseret på dine filtre, så du hurtigt får besked om at du skal tage et kig på dit system. Det kan være hvis dit system er langsomt til at beregne et request, eller hvis dit ressourceforbrug lige pludselig bliver tårnhøjt, baseret på det normale forbrug.
