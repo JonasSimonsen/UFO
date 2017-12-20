@@ -1,4 +1,5 @@
 # MONITORERING & LOGGING 
+**Af: Kasper Worm & Jonas Simonsen**
 
 ### Abstract 
 
@@ -58,7 +59,7 @@ Billedet skal illustrere hvad der vil ske når et APi kald kommer til vores serv
 Grafana er et visuelt værktøj som bl.a. giver dig mulighed for at lave grafer, alarmer, notifikationer, og filtrere din data, som du f.eks. får fra prometheus, på en pæn og overskuelig måde. Et eksempel på hvor Grafana er godt at bruge er med dets alert / notifikation system, som giver dig besked når den opfanger noget uregelmæssigt, baseret på dine filtre, så du hurtigt får besked om at du skal tage et kig på dit system. Det kan være hvis dit system er langsomt til at beregne et request, eller hvis dit ressourceforbrug lige pludselig bliver tårnhøjt, baseret på det normale forbrug.
 
 #### Prometheus
-Prometheus er et værktøj som samler din data ét sted, for at danne et overblik. Typisk data du sender til Prometheus kan være hvor mange gange et API bliver kaldt, eller hvor lang tid dine metoder er om at behandle et request. Men du er ikke bundet til kun at indsamle data om dit projekt, du har også mulighed for at overvåge din server.
+Prometheus<sup>1</sup> er et værktøj som samler din data ét sted, for at danne et overblik. Typisk data du sender til Prometheus kan være hvor mange gange et API bliver kaldt, eller hvor lang tid dine metoder er om at behandle et request. Men du er ikke bundet til kun at indsamle data om dit projekt, du har også mulighed for at overvåge din server.
 <br>
 For at få Promethues til at virke i vores Hackernews har vi implementeret det ved hjælp af en annotation i java som vil lave en metric, den annotation har vi tilføjet til alle vores endpoints, som vi har specificeret i vores path. Ydermere har vi også tilføjet den i vores applicationConfig.
 
@@ -77,11 +78,11 @@ Når dataen er indsamlet hos Prometheus vil den stille et /metrics API til rådi
 ![metrics](https://github.com/JonasSimonsen/UFO/blob/master/pictures/metric-total.png)
 
 #### Elk
-Elk stacken er en samling af 3 forskellige værktøjer som har hver deres funktion, de er beskrevet i billedet nedenfor.
+Elk stacken<sup>2</sup> er en samling af 3 forskellige værktøjer som har hver deres funktion, de er beskrevet i billedet nedenfor.
 
 ![ELK](https://github.com/JonasSimonsen/UFO/blob/master/pictures/Elk-2.png)
 
-Det er langt fra de eneste logging- og monitoreringsværktøjer som findes, der er også alternativer som f.eks. Datadog, som også virker med de mest kendte teknologier, så som Docker, Amazon webservice, Microsoft Azure, MongoDB, Java og mange flere. Ydermere er det også et tool som bruges af nogle af de største teknologi giganter i verden som f.eks. Intel, Samsung og eBay. Datadog er blot et af mange andre værktøjer, som kan bruges til logging og monitorering. Her er f.eks en oversigt over 51 brugbare værktøjer til netop dette.
+Det er langt fra de eneste logging- og monitoreringsværktøjer som findes, der er også alternativer som f.eks. Datadog<sup>3</sup>, som også virker med de mest kendte teknologier, så som Docker, Amazon webservice, Microsoft Azure, MongoDB, Java og mange flere. Ydermere er det også et tool som bruges af nogle af de største teknologi giganter i verden som f.eks. Intel, Samsung og eBay. Datadog er blot et af mange andre værktøjer, som kan bruges til logging og monitorering. Her er f.eks en oversigt over 51<sup>4</sup> brugbare værktøjer til netop dette.
 
 ### Hvad holder implementering af monitorering tilbage?
  
@@ -95,11 +96,13 @@ Implementere af logging og monitorering i dit system, vil på sigt spare både t
 
 ### Kildeliste.
 
-Prometheus: https://prometheus.io
+<sup>1</sup>Prometheus: https://prometheus.io
 <br>
-Datadog: https://www.datadoghq.com
+<sup>2</sup>Elk-stack: https://www.elastic.co
 <br>
-51tools: https://stackify.com/best-log-management-tools/ 
+<sup>3</sup>Datadog: https://www.datadoghq.com
 <br>
-Elk-stack: https://www.elastic.co
+<sup>4</sup>51tools: https://stackify.com/best-log-management-tools/ 
+<br>
+
 
