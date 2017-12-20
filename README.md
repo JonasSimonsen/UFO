@@ -43,38 +43,56 @@ Ved at monitorere f.eks. et systems resursebehov, har udvikleren og administrato
 <br>
 Efter at vi selv har prøvet at bruge logging- og monitoreringsværktøjer, vil vi sige at det er noget man bør bygge op gradvist, startende med blot at implementere en log. Derefter kan man, i takt med at systemet vokser sig større og mere kompliceret og begynde at implementerer monitoreringssystemet. 
 
-### Værktøjer der kan hjælpe dig
+### Værktøjer der har hjulpet os.
 
-Der er flere værktøjer som kan bruges til at implementere monitorering, et par af disse kunne f.eks. være Grafana, Prometheus og Elk stacken. 
-De nævnte værktøjer dækker og hjælper med at sætte et godt monitorering set-up op, så du er rustet til at klare de udfordringer du vil komme ud for.  
+Der er flere værktøjer som kan bruges til at implementere monitorering, et par af disse kunne f.eks. være Grafana, Prometheus og Elk stacken. De nævnte værktøjer dækker og hjælper med at sætte et godt monitorering set-up op, så du er rustet til at klare de udfordringer du vil komme ud for. 
+
+Billede
+
+Billedet skal illustrere hvad der vil ske når et APi kald kommer til vores server. Der sker flere ting under et enkelt request. 
+<br>
+* Dataen i Prometheus bliver opdateret og gjort tilgængeligt til 3 part værktøjer som Grafana. 
+* Der bliver skrevet til en logfil på serveren, som bliver gjort tilgængelig til Logstash. 
+* Til sidst bliver det enkelte request håndteret og returneret til brugeren.
 
 #### Grafana 
-![Grafana](https://github.com/JonasSimonsen/UFO/blob/master/pictures/grafana.png) <br>
-Grafana er et visuelt overvågnings værktøj som bl.a. giver dig mulighed for at lave grafer, alarmer, notifikationer, og filtrere din data på en pæn og overskuelig måde.
-Et eksempel på hvor Grafana er godt at bruge er med dets alert / notifikation system, som giver dig besked når den opfanger noget uregelmæssigt, baseret på dine filtre, så du hurtigt får besked om at du skal tage et kig på dit system.
-Det kan være hvis dit system er langsomt til at beregne et request, eller hvis dit ressourceforbrug lige pludselig bliver tårnhøjt, baseret på det normale forbrug. 
+Grafana er et visuelt værktøj som bl.a. giver dig mulighed for at lave grafer, alarmer, notifikationer, og filtrere din data, som du f.eks. får fra prometheus, på en pæn og overskuelig måde. Et eksempel på hvor Grafana er godt at bruge er med dets alert / notifikation system, som giver dig besked når den opfanger noget uregelmæssigt, baseret på dine filtre, så du hurtigt får besked om at du skal tage et kig på dit system. Det kan være hvis dit system er langsomt til at beregne et request, eller hvis dit ressourceforbrug lige pludselig bliver tårnhøjt, baseret på det normale forbrug.
 
 #### Prometheus
-Prometheus er et værktøj som samler din data ét sted, for at danne et overblik.
-Typisk data du sender til Prometheus kan være hvor mange gange et API bliver kaldt, eller hvor lang tid dine metoder er om at behandle et request.
-Men du er ikke bundet til kun at indsamle data om dit projekt, du har også mulighed for at overvåge din server.
+Prometheus er et værktøj som samler din data ét sted, for at danne et overblik. Typisk data du sender til Prometheus kan være hvor mange gange et API bliver kaldt, eller hvor lang tid dine metoder er om at behandle et request. Men du er ikke bundet til kun at indsamle data om dit projekt, du har også mulighed for at overvåge din server.
+<br>
+For at få Promethues til at virke i vores Hackernews har vi implementeret det ved hjælp af en annotation i java som vil lave en metric, den annotation har vi tilføjet til alle vores endpoints, som vi har specificeret i vores path. Ydermere har vi også tilføjet den i vores applicationConfig (Billede 2).
+
+Billeder
+
+Når dataen er indsamlet hos Prometheus vil den stille et /metrics API til rådighed, som ser ud på følgende måde
+
+BILLEDE AF METRICS
 
 #### Elk
-Elk stacken er et sæt værktøjer som kan bruges til at give et godt overblik over bl.a. dine logfiler.
-##### Elastic search
-Elastic search er en søgemaskine som er enormt hurtig, meget tæt på øjeblikkeligt feedback,  til at analysere og søge i store mængder dokumenter, heriblandt log filer. Dette gør du næsten ingen ventetid har på at skulle søge din data igennem, som ville stoppe dit workflow.
-##### Logging
-Logging er vigtigt at have med i et system da det vil hjælpe dig hvis du støder ind i en fejl.
-En ting at være opmærksom på fra start er at finde et logging format som man fælles kan blive enig om i systemet og benytte sig af det hele vejen igennem, for let at kunne overskue dem når man skal se dem igennem.
-##### Kibana
-Kibana er et visuelt værktøj til at analysere den data som kommer fra elastic search, så man på den måde får en ide om hvad der foregår i ens system.  Det kan bl.a. bruges til at lave grafer over dine logfiler ved at sammenligne mønstre i dem.
-Det gør du slipper for at skulle læse hver linje igennem, men du istedet kan se en graf over de forskellige handlinger. Det er også muligt at søge inden for bestemte tidspunkter, eller hvis man ønsker at finde ud af hvor i verden flest bruger af systemet sidder eller hvorfor man pludseligt midt om natten får en ekstrem tilgang i antal request.  
+Elk stacken er en samling af 3 forskellige værktøjer som har hver deres funktion, de er beskrevet i billedet nedenfor.
+
+Billede Model 
+
+Det er langt fra de eneste logging- og monitoreringsværktøjer som findes, der er også alternativer som f.eks. Datadog, som også virker med de mest kendte teknologier, så som Docker, Amazon webservice, Microsoft Azure, MongoDB, Java og mange flere. Ydermere er det også et tool som bruges af nogle af de største teknologi giganter i verden som f.eks. Intel, Samsung og eBay. Datadog er blot et af mange andre værktøjer, som kan bruges til logging og monitorering. Her er f.eks en oversigt over 51 brugbare værktøjer til netop dette.
 
 ### Hvad holder implementering af monitorering tilbage?
  
-En manglende faktor til at man vælger at sætte monitorering op på et allerede eksisterende system kan bl.a. være at det er en meget tidskrævende process hvis man ikke præcis ved hvad man laver. Ved at implementeringen kan være tidskrævende kan det også være dyrt, idet man ikke føler at man får noget, for den tid man bruger på at implementere det. En anden grundlæggende faktor for ikke at implementere det i et allerede eksisterende system kan være at implementeringen hurtigt bliver besværliggjort eftersom at systemet mange gange er placeret på flere forskellige server. Den sidste afgørende faktor kan være at udviklings teamet ikke har den fornødne know how til at kunne implementere det på en sådan måde at man får det optimale ud af både logging og monitorerings delen.
+En manglende faktor til at man vælger at sætte monitorering op på et allerede eksisterende system kan bl.a. være at det er en meget tidskrævende process hvis man ikke præcis ved hvad man laver. Ved at implementeringen kan være tidskrævende kan det også være dyrt, idet man ikke føler at man får noget, for den tid man bruger på at implementere det. En anden grundlæggende faktor for ikke at implementere det i et allerede eksisterende system kan være at implementeringen hurtigt bliver besværliggjort eftersom at systemet mange gange er placeret på flere forskellige server. Den sidste afgørende faktor kan være at udviklings teamet ikke har den fornødne know-how til at kunne implementere det på en sådan måde at man får det optimale ud af både logging og monitorerings delen.
+<br>
+Vi har ved udviklingen af Hackernews projektet oplevet at det har været besværligt og en meget tidskrævende process at sætte disse værktøjer op, vi har følt at det til tider har været spild af tid og at vi kunne have nået meget andet som havde større værdi for projektet i den tid det tog os at implementere værktøjerne. Efter implementering oplevede vi at, vi ikke rigtig kunne få den data som vi ønskede, så det endte med at vi f.eks. Kun kunne se antal request over en givet periode.  
+
 
 ### Hvad får du ud af at monitorere og logge?
-Implementere af logging og monitorering i dit system, vil på sigt spare både tid og penge i forhold til vedligeholdelse af dit system, da du hurtigere finder fejlene, i logfilerne, og du får hurtigere en melding om fejlene, ved hjælp af monitorering.
-Det kræver tid at implementere i starten, specielt hvis det er ældre systemer, som kan være store og komplicerede at finde rundt i, men hvis du oplever fejl og har svært ved at lokalisere dem, vil logging og monitorering med garanti hjælpe dig til at både finde fejlene hurtigere. På den lange bane forventes det, at være en god investering, da det ligesom refaktorering gør det hele nemmere senere hen og der vil spares en masse tid, idet man ved en vellykket opsætning ikke skal sidde og lede i logfilerne.
+Implementere af logging og monitorering i dit system, vil på sigt spare både tid og penge i forhold til vedligeholdelse af dit system, da du hurtigere finder fejlene, i logfilerne, og du får hurtigere en melding om fejlene, ved hjælp af monitorering. Det kræver tid at implementere i starten, specielt hvis det er ældre systemer, som kan være store og komplicerede at finde rundt i, men hvis du oplever fejl og har svært ved at lokalisere dem, vil logging og monitorering med garanti hjælpe dig til at finde fejlene hurtigere, end hvis du manuelt skulle finde en fejl. På den lange bane forventes det, at være en god investering, da det ligesom refaktorering gør det hele nemmere senere hen og der vil spares en masse tid, idet man ved en vellykket opsætning ikke skal sidde og lede i logfilerne. Hvis vi havde fortsat udviklingen på vores Hackernews projekt vil vi klart have arbejdet mere med logging og monitorering, for at kunne få endnu mere data omkring hvordan systemet performer og hvad det bliver udsat for. 
+
+### Kildeliste.
+
+Prometheus: https://prometheus.io
+<br>
+Datadog: https://www.datadoghq.com
+<br>
+51tools: https://stackify.com/best-log-management-tools/ 
+<br>
+Elk-stack: https://www.elastic.co
 
