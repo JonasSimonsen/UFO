@@ -19,11 +19,11 @@ Når du som udvikler eller administrator kommer og skal finde ud af hvorfor en f
 <br>
 Et godt eksempel på hvor forskellige formater en logfil kan have fandt vi ud af i vores Hackernews projekt, hvor vi har implementeret logging. Her har vi gjort det på et allerede eksisterende projekt, efter selve implementeringen fandt vi ud af at vores logfiler ikke havde samme format og at de derfor blev sværere at analysere. I den ene logfil kunne vi se hvad der kom ind i systemet, men heller ikke meget mere end det: 
 
-Billede badlog
+![badlog](https://github.com/JonasSimonsen/UFO/blob/master/pictures/badlog.png)
 
 Her vil en god logfil have fortalt tid, dato, år samt hvilken user der postede enten det specifikke post eller comment, samt hvad useren postede eller kommenterede. Så den logfil er mere eller mindre ubrugelig. I den anden logfil, hvor vi overvåger hvem der får adgang til systemet, havde vi lavet en god og informativ log:
 
-Billede goodlog
+![goodlog](https://github.com/JonasSimonsen/UFO/blob/master/pictures/goodlog.png)
 
 Ved at vi har en god log kan vi se hvornår, altså tid, dato, år, hvor kritisk det er, om brugeren har fået adgang samt hvilken ip-adresse brugen prøver at tilgå vores system fra. 
 <br>
@@ -36,9 +36,8 @@ Ved at bruge monitorering har man også mulighed for at udforske og overvåge sy
 <br>
 I vores Hackernews projekt har vi sat monitorering op med Prometheus, for at få et mere overskueligt billede af hvordan vores system virker, her monitorerer vi f.eks. Antallet af request til vores system i perioden fra d. 7 - 14 december 2017, som det også ses er der ikke sket noget uventet i den periode ved at antallet pludselig er steget fuldstændigt sindsygt. 
 
-Billede total request
+![graph-total](https://github.com/JonasSimonsen/UFO/blob/master/pictures/prometheus-graph-total.png)
 
-Billede total requests
 Ved at monitorere f.eks. et systems resursebehov, har udvikleren og administratoren mulighed for at få en advarsler de kan handle på, når der sker noget uventet, det kan f.eks. være massiv tilgang i antallet af bruger eller hvis en del af systemet pludselig bliver overbelastet, så systemet har et stort resursebehov og derved bliver langsomt. Ud fra det kan man hurtigt beslutte hvad man ønsker gøre, om der er et behov for skalering eller nedlukning af dele af systemet. 
 <br>
 Efter at vi selv har prøvet at bruge logging- og monitoreringsværktøjer, vil vi sige at det er noget man bør bygge op gradvist, startende med blot at implementere en log. Derefter kan man, i takt med at systemet vokser sig større og mere kompliceret og begynde at implementerer monitoreringssystemet. 
@@ -47,7 +46,7 @@ Efter at vi selv har prøvet at bruge logging- og monitoreringsværktøjer, vil 
 
 Der er flere værktøjer som kan bruges til at implementere monitorering, et par af disse kunne f.eks. være Grafana, Prometheus og Elk stacken. De nævnte værktøjer dækker og hjælper med at sætte et godt monitorering set-up op, så du er rustet til at klare de udfordringer du vil komme ud for. 
 
-Billede
+![flow](https://github.com/JonasSimonsen/UFO/blob/master/pictures/flow.png)
 
 Billedet skal illustrere hvad der vil ske når et APi kald kommer til vores server. Der sker flere ting under et enkelt request. 
 <br>
@@ -61,18 +60,26 @@ Grafana er et visuelt værktøj som bl.a. giver dig mulighed for at lave grafer,
 #### Prometheus
 Prometheus er et værktøj som samler din data ét sted, for at danne et overblik. Typisk data du sender til Prometheus kan være hvor mange gange et API bliver kaldt, eller hvor lang tid dine metoder er om at behandle et request. Men du er ikke bundet til kun at indsamle data om dit projekt, du har også mulighed for at overvåge din server.
 <br>
-For at få Promethues til at virke i vores Hackernews har vi implementeret det ved hjælp af en annotation i java som vil lave en metric, den annotation har vi tilføjet til alle vores endpoints, som vi har specificeret i vores path. Ydermere har vi også tilføjet den i vores applicationConfig (Billede 2).
+For at få Promethues til at virke i vores Hackernews har vi implementeret det ved hjælp af en annotation i java som vil lave en metric, den annotation har vi tilføjet til alle vores endpoints, som vi har specificeret i vores path. Ydermere har vi også tilføjet den i vores applicationConfig.
 
-Billeder
+```java
+@Produces(MediaType.APPLICATION_JSON)
+    @Prometheus(name = "request_user", help = "User API.")
+    public Response getUserInfo(@Context SecurityContext context) {
+        userService = new UserService(new UserRepo(Persistence.createEntityManagerFactory(DatabaseCfg.PU_NAME)));
+```
+```java
+resources.add(com.bluetrainsoftware.prometheus.PrometheusFilter.class);
+```
 
 Når dataen er indsamlet hos Prometheus vil den stille et /metrics API til rådighed, som ser ud på følgende måde
 
-BILLEDE AF METRICS
+![metrics](https://github.com/JonasSimonsen/UFO/blob/master/pictures/metric-total.png)
 
 #### Elk
 Elk stacken er en samling af 3 forskellige værktøjer som har hver deres funktion, de er beskrevet i billedet nedenfor.
 
-Billede Model 
+![ELK](https://github.com/JonasSimonsen/UFO/blob/master/pictures/Elk-2.png)
 
 Det er langt fra de eneste logging- og monitoreringsværktøjer som findes, der er også alternativer som f.eks. Datadog, som også virker med de mest kendte teknologier, så som Docker, Amazon webservice, Microsoft Azure, MongoDB, Java og mange flere. Ydermere er det også et tool som bruges af nogle af de største teknologi giganter i verden som f.eks. Intel, Samsung og eBay. Datadog er blot et af mange andre værktøjer, som kan bruges til logging og monitorering. Her er f.eks en oversigt over 51 brugbare værktøjer til netop dette.
 
