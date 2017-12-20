@@ -2,43 +2,46 @@
 
 ### Abstract 
 
-Mange deployed systemer, benytter ikke monitoring og bliver derfor vanskelige at vedligeholde. <br>
-Med monitorering og logging af det allerede kørende system kan man få et bedre indblik i hvordan systemet performer og hvilke fejl der opstår. <br> 
-Monitorerings- og logging værktøjer som Grafane, Prometheus og Elk stacken giver teamet bedre mulighed for at finde og løse problemer. <br>
-Ved at benytte disse værktøjer kan man opnå et hurtigere og mere stabilt system, med færre fejl og derved også en bedre brugeroplevelse. <br>
-![Monitorering](https://github.com/JonasSimonsen/UFO/blob/master/pictures/monitoring.jpg)
+Mange deployed systemer, benytter ikke logging og monitoring og bliver derfor mere vanskeligt og tidskrævende at vedligeholde. 
+Med logging og monitorering af et allerede kørende system, kan man få et bedre indblik i hvordan systemet performer og hvilke fejl der opstår. Logging- og monitoreringsværktøjer som Elk stacken, Grafane og Prometheus giver teamet bedre mulighed for at finde og løse problemer. 
+<br>
+Ved at benytte disse værktøjer kan man opnå et hurtigere og mere stabilt system, med færre fejl og derved også en bedre brugeroplevelse. 
+<br>
+
+
 
 ### Problemet
 
-Som enhver udvikler ved er logs en kritisk ressource til at finde fejl i komplekse systemer i produktion. 
-De giver en rig mulighed for at se hvad der skete, hvornår og hvor i systemet, så en hurtig og præcis løsning til et problem kan udvikles. 
-Men at arbejde med logfiler er som regel en meget tidskrævende og administrativ tung opgave. 
+Som enhver udvikler ved er logging en kritisk ressource til at finde fejl i komplekse systemer i produktion. Logging giver en rig mulighed for at se hvad der skete, hvornår og hvor i systemet, så en hurtig og præcis løsning til et problem kan udvikles. Men at arbejde med logfiler er som regel en meget tidskrævende og administrativ tung opgave.
+Selve implementeringen af logging er ligetil, men hvis du ikke er opmærksom på det fra start, kan det hurtigt give dig et problem da du vil komme til at ligge dine logs forskellige steder, og de med tiden vil vokse sig større efter jo flere brugere du får til systemet.
+<br>
+Når du som udvikler eller administrator kommer og skal finde ud af hvorfor en fejl er opstået i systemet, kan det blive svært at overskue de mange store logfiler, der forekommer på systemet, det gør det til en langt mere besværlig og tidskrævende arbejdsopgave end den burde være, hvis du manuelt skal sidde og kigge dem igennem. Et andet problem som logging kan have, som typisk vil forekomme i ældre systemer, er at logfiler kan have forskellige formater/udseende som ikke stemmer overens med de nyeste implementeringer af samme system, hvilket igen giver udvikleren eller administratoren længere behandlingstid, da de nu skal til at skelne mellem forskellige logs.
+<br>
+Et godt eksempel på hvor forskellige formater en logfil kan have fandt vi ud af i vores Hackernews projekt, hvor vi har implementeret logging. Her har vi gjort det på et allerede eksisterende projekt, efter selve implementeringen fandt vi ud af at vores logfiler ikke havde samme format og at de derfor blev sværere at analysere. I den ene logfil kunne vi se hvad der kom ind i systemet, men heller ikke meget mere end det: 
 
-Selve implementeringen af logfiler er ligetil at gøre, men hvis du ikke er opmærksom på det fra start, 
-kan det hurtigt give dig et problem da du vil komme til at ligge dine logs forskellige steder, 
-og de med tiden vil vokse sig større efter jo flere brugere du får til systemet.
+Billede badlog
 
-Når du som udvikler eller administrator kommer og skal finde ud af hvorfor en fejl er kommet i systemet, 
-kan det blive svært at overskue med de mange store logfiler der forekommer på systemet, 
-det gør det til en langt mere besværlig og tidskrævende arbejdsopgave end den burde være.
-Et andet problem som logging kan have, som typisk vil forekomme i ældre systemer, 
-er at logfiler kan have forskellige formater/udseende som ikke stemmer overens med de nyeste implementeringer af samme system, 
-hvilket igen giver udvikleren eller administratoren længere behandlingstid, da de nu skal til at skelne mellem forskellige logs
+Her vil en god logfil have fortalt tid, dato, år samt hvilken user der postede enten det specifikke post eller comment, samt hvad useren postede eller kommenterede. Så den logfil er mere eller mindre ubrugelig. I den anden logfil, hvor vi overvåger hvem der får adgang til systemet, havde vi lavet en god og informativ log:
 
-Logging alene vil ikke være tilstrækkelig nytte for dit system, slet ikke hvis dit system bliver stort, 
-med millioner af brugere, da det vil blive uoverskueligt at holde styr på det hvis der kommer en fejl.
-Uden den rette overvågning vil logging i sig selv ikke være så brugbart som det kan være og det vil stadig være en tidskrævende opgave at finde fejl ud fra.
-Dette fører os ind på monitorering, eller manglende monitorering, som vil hjælpe dig til at overvåge dit system og logs.
+Billede goodlog
+
+Ved at vi har en god log kan vi se hvornår, altså tid, dato, år, hvor kritisk det er, om brugeren har fået adgang samt hvilken ip-adresse brugen prøver at tilgå vores system fra. 
+<br>
+Logging alene vil i langt de fleste tilfælde ikke være tilstrækkelig til dit system, slet ikke hvis dit system bliver stort, med flere tusinder af brugere, da det vil blive uoverskueligt at holde styr på det hvis der opstår en fejl eller sikkerhedsbrist. Uden den rette monitorering vil logging i sig selv ikke være så brugbart. Dette fører os ind på monitorering, som kan hjælpe dig til at overvåge dit system og logfiler.
 
 ### Hvorfor bruge monitorering?
 
-Ved at indarbejde monitorering i et system, kan man sikre en hurtig og præcis indsamling af relevant data, som omhandler et opstået problem, 
-det giver udvikleren mulighed for at inspicere logfilerne og få lokaliseret et eventuelt problemet hurtigt.
-
+Ved at indarbejde monitorering i et system, kan man sikre en hurtig og præcis indsamling af relevant data, som omhandler et opstået problem, det giver udvikleren mulighed for at inspicere logfilerne og få lokaliseret et eventuelt problem hurtigere.
 Ved at bruge monitorering har man også mulighed for at udforske og overvåge systemet i produktion, her vil det typisk være monitorering af f.eks. opstået fejl, resource brug samt responstid. 
-<br>Ved at monitorere f.eks. et system resursebehov, har udvikler og administrator mulighed for at få en advarsler de kan handle på, når der sker noget uventet, 
-det kan f.eks. være massiv tilgang i antallet af bruger eller hvis en del af systemet pludselig bliver overbelastet på anden måde så systemet har et stort resursebehov og derved bliver langsomt. 
-<br>Ud fra det kan man hurtigt beslutte hvad man ønsker gøre, om det er behov for skalering eller nedlukning af dele af systemet der er brug for. 
+<br>
+I vores Hackernews projekt har vi sat monitorering op med Prometheus, for at få et mere overskueligt billede af hvordan vores system virker, her monitorerer vi f.eks. Antallet af request til vores system i perioden fra d. 7 - 14 december 2017, som det også ses er der ikke sket noget uventet i den periode ved at antallet pludselig er steget fuldstændigt sindsygt. 
+
+Billede total request
+
+Billede total requests
+Ved at monitorere f.eks. et systems resursebehov, har udvikleren og administratoren mulighed for at få en advarsler de kan handle på, når der sker noget uventet, det kan f.eks. være massiv tilgang i antallet af bruger eller hvis en del af systemet pludselig bliver overbelastet, så systemet har et stort resursebehov og derved bliver langsomt. Ud fra det kan man hurtigt beslutte hvad man ønsker gøre, om der er et behov for skalering eller nedlukning af dele af systemet. 
+<br>
+Efter at vi selv har prøvet at bruge logging- og monitoreringsværktøjer, vil vi sige at det er noget man bør bygge op gradvist, startende med blot at implementere en log. Derefter kan man, i takt med at systemet vokser sig større og mere kompliceret og begynde at implementerer monitoreringssystemet. 
 
 ### Værktøjer der kan hjælpe dig
 
